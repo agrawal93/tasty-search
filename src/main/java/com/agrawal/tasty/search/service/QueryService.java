@@ -24,7 +24,7 @@ public class QueryService {
         Set<Review> reviews = new TreeSet<>();
         for(String token : tokens) {
             Set<Integer> reviewSet = ReviewTrie.searchReviews(token);
-            if(reviewSet.isEmpty()) return null;
+            if(reviewSet == null || reviewSet.isEmpty()) continue;
             for(int reviewId : reviewSet) {
                 Review currentReview = IndexedReviews.getReview(reviewId);
                 if(currentReview == null) continue;
