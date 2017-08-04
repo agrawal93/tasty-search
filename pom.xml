@@ -38,7 +38,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<mainClass>com.agrawal.tasty.search.main.MainApplication</mainClass>
-					<layout>ZIP</layout>
 				</configuration>
 				<executions>
 					<execution>

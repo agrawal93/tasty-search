@@ -28,11 +28,12 @@ public class MainApplication {
     private static final int THREADS = 50;
     private static final int SAMPLED_DATA_LIMIT = 100000;
     
-    public static void main(String args[]) throws Exception {
+    public static void main(String args[]) {
         try {
             // 0. Process inputs/arguments
-            File reviewFile = Paths.get(MainApplication.class.getResource("/foods.txt").toURI()).toFile();
-            
+            File reviewFile = new File("./foods.txt");
+			System.out.println(reviewFile.getAbsolutePath());
+			
             // 1. Start the dispatcher thread
             Thread dispatcherThread = new Thread(new DispatcherService(reviewFile.getAbsolutePath(), THREADS));
             dispatcherThread.start();

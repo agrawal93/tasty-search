@@ -46,12 +46,7 @@ public class LoadReviewTask implements Runnable {
             
             int count = counter.incrementAndGet();
             ReviewTrie.addReview(this.review.getId(), this.review.getTokens());
-            if(count % 1 == 0) {
-                System.out.println(this.review.getId());
-                System.out.println(this.review.getReview());
-                System.out.println("=========== ALL REVIEWS LOADED ===========");
-                ReviewTrie.display();
-            }
+            if(count % 10000 == 0) System.out.println("Reviews Loaded So Far: " + count);
         } catch (IOException ex) {
             ex.printStackTrace();
             System.err.println("Error Occurred: " + ex.getMessage());
