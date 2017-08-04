@@ -51,7 +51,7 @@ class TrieNode {
     public Set<Character> characterSet() {
         return this.nodes.keySet();
     }
-    
+
     public TrieNode getNode(Character c) {
         if (!this.nodes.containsKey(c)) {
             this.nodes.put(c, new TrieNode());

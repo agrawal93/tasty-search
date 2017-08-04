@@ -7,7 +7,7 @@ import java.io.RandomAccessFile;
 
 /**
  *
- * @author I322819
+ * @author Hardik Agrawal [ hardik93@ymail.com ]
  */
 public class ReadReviewAsync implements Runnable {
 
@@ -32,7 +32,9 @@ public class ReadReviewAsync implements Runnable {
             String lines[] = new String[8];
             for (int i = 0; i < lines.length; i++) {
                 lines[i] = randomAccessFile.readLine();
-                if(i == 0) System.out.println(this.reviewId + ": " + lines[i]);
+                if (i == 0) {
+                    System.out.println(this.reviewId + ": " + lines[i]);
+                }
                 if (lines[i] == null) {
                     return;
                 }

@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LoadReviewTask implements Runnable {
 
     private static AtomicInteger counter = new AtomicInteger(0);
-    
+
     private final String fileName;
     private final Review review;
 
@@ -41,12 +41,14 @@ public class LoadReviewTask implements Runnable {
                 }
                 lines[i] = lines[i].trim();
             }
-            
+
             review.setReview(lines);
-            
+
             int count = counter.incrementAndGet();
             ReviewTrie.addReview(this.review.getId(), this.review.getTokens());
-            if(count % 10000 == 0) System.out.println("Reviews Loaded So Far: " + count);
+            if (count % 10000 == 0) {
+                System.out.println("Reviews Loaded So Far: " + count);
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
             System.err.println("Error Occurred: " + ex.getMessage());

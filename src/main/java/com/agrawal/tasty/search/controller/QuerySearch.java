@@ -11,25 +11,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
- * @author I322819
+ * @author Hardik Agrawal [ hardik93@ymail.com ]
  */
 @Controller
 public class QuerySearch {
-    
+
     @Autowired
     private QueryService service;
-    
+
     @GetMapping(
             value = "/search",
-            produces = { "application/json" }
+            produces = {"application/json"}
     )
-    public @ResponseBody List<String> search(@RequestParam("query") String query) {
+    public @ResponseBody
+    List<String> search(@RequestParam("query") String query) {
         return service.search(query.split(","));
     }
-    
+
     @GetMapping("/search/{K}")
-    public @ResponseBody List<String> search(@RequestParam("query") String query, @PathVariable int K) {
+    public @ResponseBody
+    List<String> search(@RequestParam("query") String query, @PathVariable int K) {
         return service.search(query.split(","), K);
     }
-    
+
 }

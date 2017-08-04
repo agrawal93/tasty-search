@@ -5,9 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  *
- *
- *
- * @author I322819
+ * @author Hardik Agrawal [ hardik93@ymail.com ]
  */
 public class ReviewQueue {
 
