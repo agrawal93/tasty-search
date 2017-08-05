@@ -16,6 +16,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.io.input.CountingInputStream;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  *
@@ -25,7 +28,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MainApplication {
 
     private static final int THREADS = 50;
-    private static final int SAMPLED_DATA_LIMIT = 10001;
+    private static final int SAMPLED_DATA_LIMIT = 100000;
 
     public static void main(String args[]) {
         try {
@@ -81,6 +84,14 @@ public class MainApplication {
             } catch (IOException ex) {
             }
         }
+    }
+
+    @Bean
+    public ViewResolver getViewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/jsp");
+        resolver.setSuffix(".jsp");
+        return resolver;
     }
 
 }
