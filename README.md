@@ -35,6 +35,9 @@ review data and build its internal data structures to allow it to answer queries
 3. Run the project: `` java -jar target\tasty-search-1.0.0.jar ``
 4. Access the search web form at `` http://localhost:8080/tasty-search ``
 
+## Architecture
+![Tasty Search](Tasty%20Search.jpg)
+
 ## Approach
 1. The file contains roughly 500K reviews. Need to sample it to 100K, but randomly. Since, each review starts with "product/productId", I indexed the particular review (unique id assigned) with the line number. Then shuffled the index to get `SAMPLED_DATA_LIMIT` reviews and read them using RandomAccessFile.
 2. Once the reviews were read, we need to store it in some kind of structure. Trie would be a better suited data structure since the complexities are as follows:
