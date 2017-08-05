@@ -1,7 +1,7 @@
 # tasty-search
 Tasty Search - A search engine to search gourmet food reviews data and return the top K reviews that have the highest overlap with the input query.
 
-## Requirements
+## Problem Statement Requirements
 1. [Use the data set available here](http://snap.stanford.edu/data/web-FineFoods.html)
 2. Randomly sample 100K reviews from the above set for the index
 3. Build an API that returns top K highest scoring documents for any given query, where score is defined by number of query tokens present in the review (irrespective of the frequency). In case of a tie, we use the "review/score" attribute of the review.
@@ -30,10 +30,11 @@ review data and build its internal data structures to allow it to answer queries
 - SAMPLED_DATA_LIMIT: 100000 [ modify before building: src/main/java/com/agrawal/tasty/search/main/MainApplication.java ]
 
 ## How to run
-1. Clone the repository: `` git clone https://github.com/agrawal93/tasty-search.git ``
-2. Build the project: `` mvn clean install ``
-3. Run the project: `` java -jar target\tasty-search-1.0.0.jar ``
-4. Access the search web form at `` http://localhost:8080/tasty-search ``
+1. Clone the repository: `` git clone https://github.com/agrawal93/tasty-search.git && cd tasty-search ``
+2. Download the data-set: `` wget http://snap.stanford.edu/data/finefoods.txt.gz && gzip -d finefoods.txt.gz && mv finefoods.txt foods.txt ``
+3. Build the project: `` mvn clean install ``
+4. Run the project: `` java -jar target/tasty-search-1.0.0.jar ``
+5. Access the search web form at `` http://localhost:8080/tasty-search ``
 
 ## Architecture
 ![Tasty Search](Tasty%20Search.jpg)
