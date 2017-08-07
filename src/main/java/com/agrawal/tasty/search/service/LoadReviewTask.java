@@ -5,6 +5,7 @@ import com.agrawal.tasty.search.model.ReviewTrie;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  *
@@ -26,7 +27,15 @@ public class LoadReviewTask implements Runnable {
 
     @Override
     public void run() {
+        ReviewTrie.addReview(this.review.getId(), this.review.getTokens());
+        int count = counter.incrementAndGet();
+        if (count % 10000 == 0) {
+            System.out.println("Reviews Loaded So Far: " + count + ", " + System.currentTimeMillis() + " ms.");
+        }
+        
+        
 //        System.out.println("Loading Review [" + review.getId() + "]");
+/*        long t1 = System.currentTimeMillis();
         RandomAccessFile randomAccessFile = null;
         try {
             randomAccessFile = new RandomAccessFile(fileName, "r");
@@ -45,9 +54,19 @@ public class LoadReviewTask implements Runnable {
             review.setReview(lines);
 
             int count = counter.incrementAndGet();
+            
+            long t2 = System.currentTimeMillis();
+            
+            fileLoad.addAndGet(t2-t1);
+            
+            t1 = System.currentTimeMillis();
             ReviewTrie.addReview(this.review.getId(), this.review.getTokens());
-            if (count % 10000 == 0) {
-                System.out.println("Reviews Loaded So Far: " + count);
+            t2 = System.currentTimeMillis();
+            
+            trieLoad.addAndGet(t2-t1);
+            
+            if (count % 1000 == 0) {
+                System.out.println("Reviews Loaded So Far: " + count + ", " + (fileLoad.get()/(double) count) + " ms, " + (trieLoad.get()/(double) count) + " ms.");
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -59,7 +78,7 @@ public class LoadReviewTask implements Runnable {
                 } catch (IOException ex) {
                 }
             }
-        }
+        }*/
     }
 
 }

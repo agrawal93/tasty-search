@@ -1,5 +1,7 @@
 package com.agrawal.tasty.search.model;
 
+import com.agrawal.tasty.search.datastructure.DataStructure;
+import com.agrawal.tasty.search.datastructure.DataStructureFactory;
 import java.util.Set;
 
 /**
@@ -8,14 +10,14 @@ import java.util.Set;
  */
 public class ReviewTrie {
 
-    private static final Trie root = new Trie(false);
+    private static final DataStructure root = DataStructureFactory.getInstance(DataStructureFactory.DataStructureType.TRIE, false, false);
 
     public static void addReview(int reviewId, String... tokens) {
-        root.populate(reviewId, tokens);
+        root.addReview(reviewId, tokens);
     }
 
     public static Set<Integer> searchReviews(String token) {
-        return root.search(token);
+        return root.searchReviews(token);
     }
 
     public static void display() {

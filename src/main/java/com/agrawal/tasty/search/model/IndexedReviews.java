@@ -17,7 +17,7 @@ public class IndexedReviews {
     public static void addReview(Review review) {
         index.put(review.getId(), review);
     }
-
+    
     public static Review getReview(int reviewId) {
         return index.get(reviewId);
     }
@@ -28,10 +28,10 @@ public class IndexedReviews {
         });
     }
 
-    public static List<Review> sampledReviews(int K) {
-        List<Review> resultList = new ArrayList<>(index.values());
-        Collections.shuffle(resultList);
-        return resultList.subList(0, Math.min(K, resultList.size()));
+    public static List<Review> sampledReviews() {
+        return new ArrayList<>(index.values());
+//        Collections.shuffle(resultList);
+//        return resultList.subList(0, Math.min(K, resultList.size()));
     }
 
 }
