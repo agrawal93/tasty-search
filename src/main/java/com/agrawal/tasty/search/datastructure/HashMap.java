@@ -23,10 +23,11 @@ public class HashMap extends DataStructure {
             if(!structure.containsKey(token)) {
                 synchronized(structure) {
                     structure.put(token, new HashSet<>());
-                    structure.get(token).add(reviewId);
                 }
-            } else {
-                structure.get(token).add(reviewId);
+            }
+            Set<Integer> set = structure.get(token);
+            synchronized(set) {
+                set.add(reviewId);
             }
         }
     }

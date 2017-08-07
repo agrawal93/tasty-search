@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class ReviewTrie {
 
-    private static final DataStructure root = DataStructureFactory.getInstance(DataStructureFactory.DataStructureType.TRIE, false, false);
+    private static final DataStructure root = DataStructureFactory.getInstance(DataStructureFactory.DataStructureType.HASHMAP, false, false);
 
     public static void addReview(int reviewId, String... tokens) {
         root.addReview(reviewId, tokens);

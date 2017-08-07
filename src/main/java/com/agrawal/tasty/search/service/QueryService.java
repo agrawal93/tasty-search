@@ -28,11 +28,9 @@ public class QueryService {
             if (reviewSet == null || reviewSet.isEmpty()) {
                 continue;
             }
-            for (int reviewId : reviewSet) {
+            for(int reviewId : reviewSet) {
                 Review currentReview = IndexedReviews.getReview(reviewId);
-                if (currentReview == null) {
-                    continue;
-                }
+                if(currentReview == null) continue;
                 if (reviews.contains(currentReview)) {
                     reviews.remove(currentReview);
                 }
@@ -40,7 +38,7 @@ public class QueryService {
                 reviews.add(currentReview);
             }
         }
-
+        
         List<String> topReviews = new ArrayList<>(K);
         for (Review review : reviews) {
             if (K-- > 0) {

@@ -33,7 +33,7 @@ public class GenerateQueryData {
             }
         }
         
-        File file = new File("./query.txt");
+        File file = new File("./query_post.txt");
         if(!file.exists()) file.createNewFile();
         
         System.out.println("Output File: " + file.getAbsolutePath());
@@ -41,13 +41,13 @@ public class GenerateQueryData {
         Random random = new Random();
         List<String> tokenList = new ArrayList<>(tokens);
         try (FileWriter writer = new FileWriter(file, true)) {
-            int queryLimit = 5000;
+            int queryLimit = 100000;
             while(queryLimit-- > 0) {
                 Collections.shuffle(tokenList);
                 List<String> queryTokens = tokenList.subList(0, 1+random.nextInt(9));
-                StringBuilder builder = new StringBuilder("http://localhost:8080/tasty-search/search?query=");
+                StringBuilder builder = new StringBuilder();
                 for(String queryToken : queryTokens) {
-                    builder.append(queryToken).append("%20");
+                    builder.append(queryToken).append(" ");
                 }
                 writer.write(builder.toString() + "\n");
             }

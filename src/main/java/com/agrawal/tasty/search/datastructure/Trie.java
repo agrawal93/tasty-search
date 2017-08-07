@@ -125,6 +125,7 @@ public class Trie extends DataStructure {
             }
             current = current.getNode(c);
         }
+        
         return current.getOffset();
     }
 

@@ -1,5 +1,6 @@
 package com.agrawal.tasty.search.main;
 
+import com.agrawal.tasty.search.model.IndexedReviews;
 import com.agrawal.tasty.search.model.Review;
 import com.agrawal.tasty.search.model.ReviewQueue;
 import com.agrawal.tasty.search.service.DispatcherService;
@@ -77,6 +78,7 @@ public class MainApplication {
                 if(line.startsWith("product/productId")) {
                     if(currentReview != null && lines != null) {
                         currentReview.setReview(lines);
+                        IndexedReviews.addReview(currentReview);
                         ReviewQueue.enqueue(currentReview);
                         if(--K <= 0) break;
                     }
