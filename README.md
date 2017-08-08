@@ -20,14 +20,17 @@ review data and build its internal data structures to allow it to answer queries
 4. Maven Build Framework
 
 ## Configurations (Can be changed in src/main/resources/application.properties)
-- Base Path: /tasty-search
-- Server Port: 8080
+| Name | Description | Default |
+|---|---|---|
+| server.contextPath | The base URL to be allocated on deployment | /tasty-search |
+| server.port | The port on which the application needs to be deployed | 8080 |
+| load.threads | Number of threads to concurrently load reviews into the structure | 25 |
+| sample.data.limit | Number of reviews to be sampled from the review file | 100000 |
+| review.file | Absolute Path of the file to be considered for loading reviews | ./foods.txt |
 
 ## Defaults
 - REST Endpoint to fetch top 20 reviews: `` http://<host>:<port>/<base-path>/search?query=... ``
 - REST Endpoint to fetch top K reviews: `` http://<host>:<port>/<base-path>/search/{K}?query=... ``
-- THREADS: 50 [ modify before building: src/main/java/com/agrawal/tasty/search/main/MainApplication.java ]
-- SAMPLED_DATA_LIMIT: 100000 [ modify before building: src/main/java/com/agrawal/tasty/search/main/MainApplication.java ]
 
 ## How to run
 1. Clone the repository: `` git clone https://github.com/agrawal93/tasty-search.git && cd tasty-search ``
