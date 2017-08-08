@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -27,7 +28,7 @@ public class Trie extends DataStructure {
         private boolean leaf;
 
         public TrieNode() {
-            this.nodes = new java.util.HashMap<>();
+            this.nodes = new ConcurrentHashMap<>();
             this.reviewIds = new HashSet<>();
             this.leaf = true;
         }
@@ -49,7 +50,7 @@ public class Trie extends DataStructure {
         }
 
         public synchronized Set<Integer> getOffset() {
-            return Collections.unmodifiableSet(reviewIds);
+            return Collections.unmodifiableSet(this.reviewIds);
         }
 
         public synchronized void addOffset(int reviewId) {
@@ -84,32 +85,19 @@ public class Trie extends DataStructure {
     }
 
     @Override
-    public void addReview(int reviewId, String ... tokens) {
-        for (String token : tokens) {
-            populate(reviewId, token);
-        }
-    }
-
-    private void populate(int reviewId, String string) {
-        String tokens[] = string.split("\\W+");
-        for (String token : tokens) {
-            addToken(reviewId, token.toCharArray());
-        }
+    public void addToken(int reviewId, String token) {
+        if(!caseSensitive) token = token.toLowerCase();
+        addToken(reviewId, token.toCharArray());
     }
 
     private void addToken(int reviewId, char token[]) {
         TrieNode current = root;
-        for (char c : token) {
-            if (!caseSensitive && c >= 'A' && c <= 'Z') {
-                c += 32;
-            }
-            current = current.getNode(c);
-        }
+        for (char c : token) current = current.getNode(c);
         current.addOffset(reviewId);
     }
 
-    @Override
-    public Set<Integer> searchReviews(String token) {
+    private TrieNode search(String token) {
+        if(!caseSensitive) token = token.toLowerCase();
         TrieNode current = root;
         for (int i = 0; i < token.length(); i++) {
             if (current.isLeaf()) {
@@ -117,16 +105,18 @@ public class Trie extends DataStructure {
             }
 
             char c = token.charAt(i);
-            if (!caseSensitive && c >= 'A' && c <= 'Z') {
-                c += 32;
-            }
             if (!current.hasNode(c)) {
                 return null;
             }
             current = current.getNode(c);
         }
-        
-        return current.getOffset();
+        return current;
+    }
+    
+    @Override
+    public Set<Integer> searchToken(String token) {
+        TrieNode result = search(token);
+        return result == null ? null : result.getOffset();
     }
 
     @Override

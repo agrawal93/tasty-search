@@ -1,8 +1,9 @@
 package com.agrawal.tasty.search.datastructure;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -10,32 +11,25 @@ import java.util.Set;
  */
 public class HashMap extends DataStructure {
 
-    private final Map<String, Set<Integer>> structure = new java.util.HashMap<>();
+    private final Map<String, Map<Integer, Object>> structure = new ConcurrentHashMap<>();
     
     public HashMap(boolean partialSearch, boolean caseSensitive) {
         super(partialSearch, caseSensitive);
     }
     
     @Override
-    public void addReview(int reviewId, String... tokens) {
-        for(String token : tokens) {
-            if(!caseSensitive) token = token.toLowerCase();
-            if(!structure.containsKey(token)) {
-                synchronized(structure) {
-                    structure.put(token, new HashSet<>());
-                }
-            }
-            Set<Integer> set = structure.get(token);
-            synchronized(set) {
-                set.add(reviewId);
-            }
+    public void addToken(int reviewId, String token) {
+        if(!caseSensitive) token = token.toLowerCase();
+        if(!structure.containsKey(token)) {
+            structure.put(token, new ConcurrentHashMap<>());
         }
+        structure.get(token).put(reviewId, null);
     }
 
     @Override
-    public Set<Integer> searchReviews(String token) {
+    public Set<Integer> searchToken(String token) {
         if(!caseSensitive) token = token.toLowerCase();
-        return structure.get(token);
+        return Collections.unmodifiableSet(structure.get(token).keySet());
     }
 
     @Override
