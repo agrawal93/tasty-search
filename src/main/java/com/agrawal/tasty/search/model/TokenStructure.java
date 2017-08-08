@@ -14,7 +14,7 @@ public class TokenStructure {
     private final DataStructure root;
 
     private TokenStructure() {
-        this.root = DataStructureFactory.getInstance(DataStructureFactory.DataStructureType.TRIE, false, false);
+        this.root = DataStructureFactory.getInstance(DataStructureFactory.DataStructureType.HASHMAP, false, false);
     }
 
     public static TokenStructure getInstance() {

@@ -19,7 +19,6 @@ public class MainApplication {
             Configuration.loadConfig();
 
             // 1. Load Reviews
-            System.out.println("Started Review Loader: " + System.currentTimeMillis());
             ReviewLoader reviewLoader = ReviewLoaderFactory.getInstance(ReviewLoaderFactory.ReviewLoaderType.MAPPED_BYTE_BUFFER);
             reviewLoader.loadReviews(Configuration.getProperty("review.file"), Configuration.getPropertyInteger("sample.data.limit"));
 

@@ -30,7 +30,7 @@ public class LoadReviewTask implements Runnable {
             TokenStructure.getInstance().addReview(reviewId, review.getTokens());
             int c = count.incrementAndGet();
             if(c == Configuration.getPropertyInteger("sample.data.limit")-1) {
-                System.out.println("All Reviews Loaded as structure: " + System.currentTimeMillis());
+                System.out.println("All Reviews Loaded as structure.");
             }
         } catch(Exception e) {
             e.printStackTrace();

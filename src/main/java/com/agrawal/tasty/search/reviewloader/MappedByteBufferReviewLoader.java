@@ -45,7 +45,6 @@ public class MappedByteBufferReviewLoader implements ReviewLoader {
                 }
             }
             executor.shutdown();
-            System.out.println("Loaded reviews in executor: " + System.currentTimeMillis());
         } catch(IOException ex) {
             ex.printStackTrace();
         }
