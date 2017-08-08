@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,14 +27,24 @@ public class GenerateQueryData {
         
         Set<String> tokens = new HashSet<>();
         
-        try(BufferedReader reader = new BufferedReader(new FileReader(reviewFile))) {
-            String line;
-            while((line = reader.readLine()) != null) {
-                if(line.contains("review/summary") || line.contains("review/text")) {
-                    String lineTokens[] = line.substring(line.indexOf(":")+1).split("\\W+");
-                    tokens.addAll(Arrays.asList(lineTokens));
+        try(RandomAccessFile file = new RandomAccessFile(reviewFile, "r")) {
+            FileChannel channel = file.getChannel();
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+            
+            StringBuilder line = new StringBuilder();
+            for(int i=0, n=buffer.limit(); i<n; i++) {
+                char read = (char) buffer.get();
+                line.append(read);
+                if(read == '\n') {
+                    String currentLine = line.toString().trim();
+                    if(currentLine.startsWith("review/summary:") || currentLine.startsWith("review/text:")) {
+                        tokens.addAll(Arrays.asList(currentLine.substring(currentLine.indexOf(":") + 1).split("\\W+")));
+                    }
+                    line = new StringBuilder();
                 }
             }
+        } catch(IOException ex) {
+            ex.printStackTrace();
         }
         
         File file = new File("./query_post.txt");
@@ -41,16 +55,17 @@ public class GenerateQueryData {
         Random random = new Random();
         List<String> tokenList = new ArrayList<>(tokens);
         try (FileWriter writer = new FileWriter(file, true)) {
-            int queryLimit = 100000;
+            int queryLimit = 2500;
+            StringBuilder builder = new StringBuilder();
             while(queryLimit-- > 0) {
                 Collections.shuffle(tokenList);
                 List<String> queryTokens = tokenList.subList(0, 1+random.nextInt(9));
-                StringBuilder builder = new StringBuilder();
-                for(String queryToken : queryTokens) {
+                queryTokens.forEach((queryToken) -> {
                     builder.append(queryToken).append(" ");
-                }
-                writer.write(builder.toString() + "\n");
+                });
+                builder.append("\n");
             }
+            writer.write(builder.toString());
         }
         
     }

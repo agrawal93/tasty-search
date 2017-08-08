@@ -1,7 +1,6 @@
 package com.agrawal.tasty.search.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Hardik Agrawal [ hardik93@ymail.com ]
  */
-public class IndexedReviews {
+public class ReviewIndex {
 
     private static final Map<Integer, Review> index = new ConcurrentHashMap<>();
 
@@ -22,16 +21,10 @@ public class IndexedReviews {
         return index.get(reviewId);
     }
 
-    public static void resetSampledReviews() {
+    public static void resetQueryScore() {
         index.values().forEach((review) -> {
             review.resetQueryScore();
         });
-    }
-
-    public static List<Review> sampledReviews() {
-        return new ArrayList<>(index.values());
-//        Collections.shuffle(resultList);
-//        return resultList.subList(0, Math.min(K, resultList.size()));
     }
 
 }

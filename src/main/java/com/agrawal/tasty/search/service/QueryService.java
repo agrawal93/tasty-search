@@ -1,8 +1,8 @@
 package com.agrawal.tasty.search.service;
 
-import com.agrawal.tasty.search.model.IndexedReviews;
 import com.agrawal.tasty.search.model.Review;
-import com.agrawal.tasty.search.model.ReviewTrie;
+import com.agrawal.tasty.search.model.ReviewIndex;
+import com.agrawal.tasty.search.model.TokenStructure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,15 +21,14 @@ public class QueryService {
     }
 
     public List<String> search(String tokens[], int K) {
-        IndexedReviews.resetSampledReviews();
         Set<Review> reviews = new TreeSet<>();
         for (String token : tokens) {
-            Set<Integer> reviewSet = ReviewTrie.searchReviews(token);
+            Set<Integer> reviewSet = TokenStructure.getInstance().searchReviews(token);
             if (reviewSet == null || reviewSet.isEmpty()) {
                 continue;
             }
             for(int reviewId : reviewSet) {
-                Review currentReview = IndexedReviews.getReview(reviewId);
+                Review currentReview = ReviewIndex.getReview(reviewId);
                 if(currentReview == null) continue;
                 if (reviews.contains(currentReview)) {
                     reviews.remove(currentReview);
@@ -48,6 +47,8 @@ public class QueryService {
             }
         }
 
+        ReviewIndex.resetQueryScore();
+        
         return topReviews;
     }
 

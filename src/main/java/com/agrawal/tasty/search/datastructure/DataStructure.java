@@ -16,9 +16,9 @@ public abstract class DataStructure {
         this.caseSensitive = caseSensitive;
     }
     
-    public abstract void addReview(int reviewId, String ... tokens);
+    public abstract void addToken(int reviewId, String token);
     
-    public abstract Set<Integer> searchReviews(String token);
+    public abstract Set<Integer> searchToken(String token);
     
     public abstract void display();
     
