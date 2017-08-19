@@ -39,21 +39,11 @@ review data and build its internal data structures to allow it to answer queries
 4. Run the project: `` java -jar target/tasty-search-1.0.0.jar ``
 5. Access the search web form at `` http://localhost:8080/tasty-search ``
 
-## Architecture
-![Tasty Search](Tasty%20Search.jpg)
-
 ## Approach
-1. The file contains roughly 500K reviews. Need to sample it to 100K, but randomly. Since, each review starts with "product/productId", I indexed the particular review (unique id assigned) with the line number. Then shuffled the index to get `SAMPLED_DATA_LIMIT` reviews and read them using RandomAccessFile.
-2. Once the reviews were read, we need to store it in some kind of structure. Trie would be a better suited data structure since the complexities are as follows:
+1. The file contains roughly 500K reviews. Need to sample it to 100K, but randomly. Read the file sequentially and generate random boolean at each review to decide whether to consider that review or not.
+2. Once the reviews were read, we need to store it in some kind of structure. Trie would be a better suited data structure since it can be used later for partial searches and the complexities are as follows:
    - inserting would be O(N) where N is the length of a given token.
    - querying would be O(N) where N is the length of a given token.
-3. But, we don't use Trie for each review. Instead, we make a customized Trie, which would be common to all reviews. At the end of each token, we store a set of all the review ids (generated in step 1) in which that particular token exists. Takes roughly about 25 minutes to read and load 100K sampled reviews into the structure.
+3. But, we don't use Trie for each review. Instead, we make a customized Trie, which would be common to all reviews. At the end of each token, we store a set of all the review ids (generated in step 1) in which that particular token exists. Takes roughly about 8 seconds to read and load 100K sampled reviews into the structure.
 4. Once loaded, any query can be searched through the Trie node and all the reviews that contain the structure. The Review class can sort the list of reviews using the Comparable interface implemented (which sorts based on queryHits and reviewScore). For sorting the same, we leverage the TreeSet class provided by Java Collections Framework.
 5. Output the top K reviews from the TreeSet.
-
-## Suggested Improvement
-1. Sort the query tokens lexicographically.
-2. For each token in tokens
-   - search for current token
-   - if next token starts with more than half of the current token, then traverse back on the Trie to reach the common node earlier (maybe a few steps less). Would help if the tokens are quite long.
-   - else start from the root of Trie again
